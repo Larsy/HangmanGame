@@ -93,10 +93,10 @@ namespace HangmanGame
             Random rand = new Random();
             wordIndex = rand.Next(0, wordList.Length);
             hiddenWord = string.Concat(Enumerable.Repeat('_', wordList[wordIndex].Length));
-            screenBuffer[2] = "\tGissa detta ord : " + FormatWord(hiddenWord);
-            DrawScreen();
             while (guess <= 10 && endProgram == false)
             {
+                screenBuffer[2] = "\tGissa detta ord : " + FormatWord(hiddenWord);
+                DrawScreen();
                 if (!hiddenWord.ToLower().Equals(wordList[wordIndex].ToLower()))
                 {
                     Console.Write("\t" + (11 - guess) + " försök kvar. Skriv bokstav, del av, eller hela ordet : ");
@@ -139,7 +139,6 @@ namespace HangmanGame
                             guess++;
                         }
                     }
-                    DrawScreen();
                 }
                 else
                 {
@@ -207,7 +206,6 @@ namespace HangmanGame
                 }
             }
             hiddenWord = tmpString;
-            screenBuffer[2] = "\tGissa detta ord : " + FormatWord(hiddenWord);
         }
     }
 }
