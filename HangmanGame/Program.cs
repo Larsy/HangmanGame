@@ -82,8 +82,6 @@ namespace HangmanGame
             "Oh No, he died!"
         };
 
-        private static readonly string[] guesses = new string[10];
-
         private static int hangManIndex = 0;
 
         private static readonly StringBuilder sb = new StringBuilder();
@@ -115,7 +113,7 @@ namespace HangmanGame
                             screenBuffer[startIdx + guess] = ("Nej, " + userInput + " ingår inte!").PadRight(60, ' ')
                                 + screenBuffer[startIdx + guess].PadLeft(30, ' ')[^10..].PadLeft(35, ' ');
                         }
-                        if (!guesses.Contains(userInput.ToLower()))
+                        if (!sb.ToString().Contains(userInput.ToLower()))
                         {
                             if (guess <= 6)
                             {
@@ -135,7 +133,7 @@ namespace HangmanGame
                                 screenBufferIndex++;
                                 hangManIndex++;
                             }
-                            guesses[guess - 1] = userInput.ToLower();
+                            sb.Append(userInput);
                             guess++;
                         }
                     }
@@ -160,18 +158,14 @@ namespace HangmanGame
             }
         }
 
-        private static string FormatWord(string inputString)
+        private static string FormatWord(string wordWithoutSpaces)
         {
-            //string outputString = "";
-            char[] tmpArray = inputString.ToCharArray();
-            sb.Clear();
-            for (int i = 0; i < inputString.Length; i++)
+            string outputString = "";
+            for (int i = 0; i < wordWithoutSpaces.Length; i++)
             {
-                //outputString += $" {inputString.ToCharArray()[i]} ";
-                sb.Append(" ").Append(tmpArray[i]).Append(" ");
+                outputString += $" {wordWithoutSpaces.ToCharArray()[i]} ";
             }
-            //return outputString;
-            return sb.ToString();
+            return outputString;
         }
 
         private static string CorrectPartsInHW(string inputString)
