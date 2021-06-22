@@ -15,7 +15,7 @@ namespace HangmanGame
         private static readonly string[] wordList =
         {
             "HangMan",
-            "regeringskris",
+            "regeringskriser",
             "blomma",
             "hybridbil",
             "segelbåt",
@@ -29,7 +29,8 @@ namespace HangmanGame
             "president",
             "klocka",
             "giraFF",
-            "Gitarr"
+            "Gitarr",
+            "antagande"
         };
         private static readonly string[] screenBuffer =
         {
@@ -90,6 +91,8 @@ namespace HangmanGame
         {
             Random rand = new Random();
             wordIndex = rand.Next(0, wordList.Length);
+            //För test av ett bestämt ord
+            //wordIndex = 16;
             hiddenWord = string.Concat(Enumerable.Repeat('_', wordList[wordIndex].Length));
             while (guess <= 10 && endProgram == false)
             {
@@ -173,9 +176,17 @@ namespace HangmanGame
             string tmpString = "";
             for (int i = 0; i < wordList[wordIndex].Length; i++)
             {
-                if (userInput.ToLower().Contains(wordList[wordIndex].ToLower()[i..(i + 1)]))
+                if (i + inputString.Length <= wordList[wordIndex].Length)
                 {
-                    tmpString += wordList[wordIndex].ToCharArray()[i];
+                    if (inputString.ToLower() == wordList[wordIndex].ToLower()[i..(i + inputString.Length)])
+                    {
+                        tmpString += inputString.ToLower();
+                        i += inputString.Length - 1;
+                    }
+                    else
+                    {
+                        tmpString += '_';
+                    }
                 }
                 else
                 {
@@ -185,14 +196,22 @@ namespace HangmanGame
             return tmpString;
         }
 
-        private static void UpdateHiddenWord(string strInput)
+        private static void UpdateHiddenWord(string inputString)
         {
             string tmpString = "";
-            for (int i = 0; i < hiddenWord.Length; i++)
+            for (int i = 0; i < wordList[wordIndex].Length; i++)
             {
-                if (strInput.ToLower().Contains(wordList[wordIndex].ToLower()[i..(i + 1)]))
+                if (i + inputString.Length <= wordList[wordIndex].Length)
                 {
-                    tmpString += wordList[wordIndex][i..(i + 1)];
+                    if (inputString.ToLower() == wordList[wordIndex].ToLower()[i..(i + inputString.Length)])
+                    {
+                        tmpString += inputString.ToLower();
+                        i += inputString.Length - 1;
+                    }
+                    else
+                    {
+                        tmpString += hiddenWord[i] != '_' ? hiddenWord[i] : '_';
+                    }
                 }
                 else
                 {
